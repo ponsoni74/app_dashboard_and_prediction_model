@@ -5,7 +5,7 @@ import pandas as pd
 #from keras.layers import LSTM, Dense
 import joblib
 #import streamlit.components.v1 as components
-from sklearn.preprocessing import MinMaxScaler
+#from sklearn.preprocessing import MinMaxScaler
 #from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_absolute_percentage_error
 
 st.title('Modelo de previsão do preço do petróleo Brent para o dia 18/11/2024')
@@ -15,8 +15,8 @@ st.write('Obs.: Informamos que em breve a data para previsão poderá ser seleci
 data = pd.read_excel('preco_petroleo_brent_12-05-2000.xlsx', parse_dates=['Data'], index_col='Data')
 
 # Normalização dos dados
-scaler = MinMaxScaler(feature_range=(0,1))
-scaled_data = scaler.fit_transform(data)
+#scaler = MinMaxScaler(feature_range=(0,1))
+#scaled_data = scaler.fit_transform(data)
 
 # Preparação dos dados com a geração do array de entrada X (sequencias), e do array de saída equivalente y.
 #def create_sequences(data, sequence_length):
@@ -49,7 +49,7 @@ scaled_data = scaler.fit_transform(data)
 # importando o modelo preditivo
 model = joblib.load('model.pkl')
 
-predictions = model.predict(scaled_data)
+predictions = model.predict(data)
 
 #mse = mean_squared_error(y_test, predictions)
 #rmse = np.sqrt(mse)
@@ -57,18 +57,18 @@ predictions = model.predict(scaled_data)
 #mae = mean_absolute_error(y_test, predictions)
 
 # Revertendo as escalas para plotar os valores na escala real do índice
-predicted_prices = scaler.inverse_transform(predictions)
-actual_prices = scaler.inverse_transform(scaled_data.reshape(-1,1))
+#predicted_prices = scaler.inverse_transform(predictions)
+#actual_prices = scaler.inverse_transform(scaled_data.reshape(-1,1))
 
-mape = mean_absolute_percentage_error(actual_prices, predicted_prices)
+#ape = mean_absolute_percentage_error(actual_prices, predicted_prices)
 
 
 
 # Gerar previsão
 #predictions = model.predict(data)
 
-preco_atual = pd.DataFrame(actual_prices)
-preco_potencial = pd.DataFrame(predicted_prices)
+preco_atual = pd.DataFrame(data)
+preco_potencial = pd.DataFrame(data)
 
 st.write(f'O preço real é ........................... US$  {preco_atual.iloc[0][0].round(2)}')
 st.write(f'A previsão do preço é................ US$ {preco_potencial.iloc[0][0].round(2)}')
