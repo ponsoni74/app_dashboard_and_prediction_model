@@ -5,3 +5,4 @@ joblib
 openpyxl
 keras
 tensorflow
+sklearn.preprocessing
