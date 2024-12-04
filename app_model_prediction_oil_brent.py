@@ -5,7 +5,8 @@ import numpy as np
 #from keras.layers import LSTM, Dense
 import joblib
 #import streamlit.components.v1 as components
-from sklearn.preprocessing import MinMaxScaler
+import sklearn.preprocessing as sk
+#from sklearn.preprocessing import MinMaxScaler
 #from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_absolute_percentage_error
 
 st.title('Modelo de previsão do preço do petróleo Brent para o dia 18/11/2024')
@@ -15,7 +16,7 @@ st.write('Obs.: Informamos que em breve a data para previsão poderá ser aqui s
 data = pd.read_excel('preco_petroleo_brent_12-05-2000.xlsx', parse_dates=['Data'], index_col='Data')
 
 # Normalização dos dados
-scaler = MinMaxScaler(feature_range=(0,1))
+scaler = sk.MinMaxScaler(feature_range=(0,1))
 scaled_data = scaler.fit_transform(data)
 
 # Preparação dos dados com a geração do array de entrada X (sequencias), e do array de saída equivalente y.
