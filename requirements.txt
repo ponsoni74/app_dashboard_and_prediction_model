@@ -4,4 +4,5 @@ joblib
 openpyxl
 keras
 tensorflow
+sklearn
 scikit-learn
