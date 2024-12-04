@@ -19,22 +19,22 @@ data = pd.read_excel('preco_petroleo_brent_12-05-2000.xlsx', parse_dates=['Data'
 #scaled_data = scaler.fit_transform(data)
 
 # Preparação dos dados com a geração do array de entrada X (sequencias), e do array de saída equivalente y.
-def create_sequences(data, sequence_length):
-  X_sequences, y_targets = [], []
+#def create_sequences(data, sequence_length):
+#  X_sequences, y_targets = [], []
 
-  for i in range(len(data) - sequence_length):
-    X_sequences.append(data[i:i+sequence_length, 0])  #scaled_data
-    y_targets.append(data[i+sequence_length, 0])  #scaled_data
+#  for i in range(len(data) - sequence_length):
+#    X_sequences.append(scaled_data[i:i+sequence_length, 0])
+#   y_targets.append(scaled_data[i+sequence_length, 0])
+#
+#  return np.array(X_sequences), np.array(y_targets)
 
-  return np.array(X_sequences), np.array(y_targets)
-
-sequence_length = 10
-X, y = create_sequences(data, sequence_length)   #scaled_data
+#sequence_length = 10
+#X, y = create_sequences(scaled_data, sequence_length)
 
 # Separação dos dados entre conjunto de dados para treinamento e conjunto de dados para teste.
-train_size = int(len(X) * 0.8)
-X_train, X_test = X[train_size:], X[:train_size]
-y_train, y_test = y[train_size:], y[:train_size]
+#train_size = int(len(X) * 0.8)
+#X_train, X_test = X[train_size:], X[:train_size]
+#y_train, y_test = y[train_size:], y[:train_size]
 
 # Construindo o modelo LSTM
 #model = Sequential()
@@ -50,7 +50,7 @@ y_train, y_test = y[train_size:], y[:train_size]
 model = joblib.load('model.pkl')
 
 # Gerar previsão
-predictions = model.predict(X_test)
+predictions = model.predict(data)
 
 #mse = mean_squared_error(y_test, predictions)
 #rmse = np.sqrt(mse)
