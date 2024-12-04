@@ -6,7 +6,7 @@ import pandas as pd
 import joblib
 #import streamlit.components.v1 as components
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_absolute_percentage_error
+#from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_absolute_percentage_error
 
 st.title('Modelo de previsão do preço do petróleo Brent para o dia 18/11/2024')
 st.write('Obs.: Informamos que em breve a data para previsão poderá ser selecionada')
@@ -52,16 +52,16 @@ model = joblib.load('model.pkl')
 # Gerar previsão
 predictions = model.predict(X_test)
 
-mse = mean_squared_error(y_test, predictions)
-rmse = np.sqrt(mse)
-mae = mean_absolute_error(y_test, predictions)
-mae = mean_absolute_error(y_test, predictions)
+#mse = mean_squared_error(y_test, predictions)
+#rmse = np.sqrt(mse)
+#mae = mean_absolute_error(y_test, predictions)
+#mae = mean_absolute_error(y_test, predictions)
 
 # Revertendo as escalas para plotar os valores na escala real do índice
 predicted_prices = scaler.inverse_transform(predictions)
 actual_prices = scaler.inverse_transform(y_test.reshape(-1,1))
 
-ape = mean_absolute_percentage_error(actual_prices, predicted_prices)
+#mape = mean_absolute_percentage_error(actual_prices, predicted_prices)
 
 preco_atual = pd.DataFrame(actual_prices)
 preco_potencial = pd.DataFrame(predicted_prices)
@@ -73,10 +73,10 @@ erro = abs(((preco_potencial.iloc[0][0].round(4) - preco_atual.iloc[0][0].round(
 
 st.write(f'Erro na previsão em % foi de.................. {erro.round(2)}%')
 
-st.write(f'Mean Squared Error (MSE)...................... {mse:.4f}')
-st.write(f'Root Mean Squared Error (RMSE)................ {rmse:.4f}')
-st.write(f'Mean Absolute Error (MAE)......................... {mae:.4f}')
-st.write(f'Mean Absolute Percentage Error (MAPE)...... {mape:.4f}')
+#st.write(f'Mean Squared Error (MSE)...................... {mse:.4f}')
+#st.write(f'Root Mean Squared Error (RMSE)................ {rmse:.4f}')
+#st.write(f'Mean Absolute Error (MAE)......................... {mae:.4f}')
+#st.write(f'Mean Absolute Percentage Error (MAPE)...... {mape:.4f}')
 
 #criar o gráfico
 st.write('Gráfico com a evolução de preço real do barril')
