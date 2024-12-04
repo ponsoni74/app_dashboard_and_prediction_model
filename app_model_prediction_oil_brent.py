@@ -5,8 +5,8 @@ import pandas as pd
 #from keras.layers import LSTM, Dense
 import joblib
 #import streamlit.components.v1 as components
-from sklearn.preprocessing import MinMaxScaler
-#from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_absolute_percentage_error
+#from sklearn.preprocessing import MinMaxScaler
+##from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_absolute_percentage_error
 
 st.title('Modelo de previsão do preço do petróleo Brent para o dia 18/11/2024')
 st.write('Obs.: Informamos que em breve a data para previsão poderá ser selecionada')
@@ -15,21 +15,21 @@ st.write('Obs.: Informamos que em breve a data para previsão poderá ser seleci
 data = pd.read_excel('preco_petroleo_brent_12-05-2000.xlsx', parse_dates=['Data'], index_col='Data')
 
 # Normalização dos dados
-scaler = MinMaxScaler(feature_range=(0,1))
-scaled_data = scaler.fit_transform(data)
+#scaler = MinMaxScaler(feature_range=(0,1))
+#scaled_data = scaler.fit_transform(data)
 
 # Preparação dos dados com a geração do array de entrada X (sequencias), e do array de saída equivalente y.
 def create_sequences(data, sequence_length):
   X_sequences, y_targets = [], []
 
   for i in range(len(data) - sequence_length):
-    X_sequences.append(scaled_data[i:i+sequence_length, 0])
-    y_targets.append(scaled_data[i+sequence_length, 0])
+    X_sequences.append(data[i:i+sequence_length, 0])  #scaled_data
+    y_targets.append(data[i+sequence_length, 0])  #scaled_data
 
   return np.array(X_sequences), np.array(y_targets)
 
 sequence_length = 10
-X, y = create_sequences(scaled_data, sequence_length)
+X, y = create_sequences(data, sequence_length)   #scaled_data
 
 # Separação dos dados entre conjunto de dados para treinamento e conjunto de dados para teste.
 train_size = int(len(X) * 0.8)
@@ -58,13 +58,13 @@ predictions = model.predict(X_test)
 #mae = mean_absolute_error(y_test, predictions)
 
 # Revertendo as escalas para plotar os valores na escala real do índice
-predicted_prices = scaler.inverse_transform(predictions)
-actual_prices = scaler.inverse_transform(y_test.reshape(-1,1))
+#predicted_prices = scaler.inverse_transform(predictions)
+#actual_prices = scaler.inverse_transform(y_test.reshape(-1,1))
 
-#mape = mean_absolute_percentage_error(actual_prices, predicted_prices)
+##mape = mean_absolute_percentage_error(actual_prices, predicted_prices)
 
-preco_atual = pd.DataFrame(actual_prices)
-preco_potencial = pd.DataFrame(predicted_prices)
+preco_atual = pd.DataFrame(data)
+preco_potencial = pd.DataFrame(data)
 
 st.write(f'O preço real é ........................... US$  {preco_atual.iloc[0][0].round(2)}')
 st.write(f'A previsão do preço é................ US$ {preco_potencial.iloc[0][0].round(2)}')
