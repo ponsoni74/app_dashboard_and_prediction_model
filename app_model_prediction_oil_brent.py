@@ -9,7 +9,7 @@ from sklearn.preprocessing import MinMaxScaler
 #from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_absolute_percentage_error
 
 st.title('Modelo de previsão do preço do petróleo Brent para o dia 18/11/2024')
-st.write('Obs.: Informamos que em breve a data para previsão poderá ser selecionada')
+st.write('Obs.: Informamos que em breve a data para previsão poderá ser aqui selecionada.')
          
 # importando os dados
 data = pd.read_excel('preco_petroleo_brent_12-05-2000.xlsx', parse_dates=['Data'], index_col='Data')
@@ -24,7 +24,7 @@ def create_sequences(data, sequence_length):
 
   for i in range(len(data) - sequence_length):
     X_sequences.append(scaled_data[i:i+sequence_length, 0])
-   y_targets.append(scaled_data[i+sequence_length, 0])
+    y_targets.append(scaled_data[i+sequence_length, 0])
 
   return np.array(X_sequences), np.array(y_targets)
 
@@ -61,25 +61,31 @@ predictions = model.predict(X_test)
 predicted_prices = scaler.inverse_transform(predictions)
 actual_prices = scaler.inverse_transform(y_test.reshape(-1,1))
 
-##mape = mean_absolute_percentage_error(actual_prices, predicted_prices)
+#ape = mean_absolute_percentage_error(actual_prices, predicted_prices)
 
-preco_atual = pd.DataFrame(predicted_prices)
-preco_potencial = pd.DataFrame(actual_prices)
+# Gerar previsão
+#predictions = model.predict(data)
 
-st.write(f'O preço real é ........................... US$  {preco_atual.iloc[0][0].round(2)}')
-st.write(f'A previsão do preço é................ US$ {preco_potencial.iloc[0][0].round(2)}')
+#preco_atual = pd.DataFrame(actual_prices)
+#preco_potencial = pd.DataFrame(predicted_prices)
 
-erro = abs(((preco_potencial.iloc[0][0].round(4) - preco_atual.iloc[0][0].round(2))/ preco_atual.iloc[0][0].round(2)*100).round(2))
+st.write(f'O preço real é ........................... US$  {actual_prices[0][0]:.2f}')
+st.write(f'A previsão do preço é................ US$ {predicted_prices[0][0]:.2f}')
 
-st.write(f'Erro na previsão em % foi de.................. {erro.round(2)}%')
+#{.2f}'.format(actual_prices[0][0])
 
+erro = abs(((predicted_prices[0][0].round(4) - actual_prices[0][0].round(2))/ actual_prices[0][0].round(2)*100).round(2))
+
+st.write(f'O erro na previsão desse preço em específico foi de.................. {erro}%')
+
+#st.write('##Abaixo são apresentadas as métricas do modelo por completo:')
 #st.write(f'Mean Squared Error (MSE)...................... {mse:.4f}')
 #st.write(f'Root Mean Squared Error (RMSE)................ {rmse:.4f}')
 #st.write(f'Mean Absolute Error (MAE)......................... {mae:.4f}')
-#st.write(f'Mean Absolute Percentage Error (MAPE)...... {mape:.4f}')
+#st.write(f'Mean Absolute Percentage Error (MAPE)...... {mape*100:.2f}%')
 
 #criar o gráfico
-st.write('Gráfico com a evolução de preço real do barril')
+st.write('Gráfico com a evolução de preço real do barril entre os anos de 2000 e 2024')
 st.line_chart(data)
 
 # filtro para o gráfico
