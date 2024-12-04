@@ -15,10 +15,10 @@ st.write('Obs.: Informamos que em breve a data para previsão poderá ser aqui s
 # importando os dados
 data = pd.read_excel('preco_petroleo_brent_12-05-2000.xlsx', parse_dates=['Data'], index_col='Data')
 
-# Normalização dos dados
+# carregando o scaler
+scaler = joblib.load('scaler.pkl')
 #scaler = MinMaxScaler(feature_range=(0,1))
-#scaled_data = scaler.fit_transform(data)
-scaled_data = data
+scaled_data = scaler.fit_transform(data)
 
 # Preparação dos dados com a geração do array de entrada X (sequencias), e do array de saída equivalente y.
 def create_sequences(data, sequence_length):
@@ -48,7 +48,7 @@ y_train, y_test = y[train_size:], y[:train_size]
 # Treinando o modelo
 #model.fit(X_train, y_train, epochs=10, batch_size=32)
 
-# importando o modelo preditivo
+# carregando o modelo preditivo
 model = joblib.load('model.pkl')
 
 # Gerar previsão
