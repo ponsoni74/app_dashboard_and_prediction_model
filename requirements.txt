@@ -4,6 +4,3 @@ numpy
 keras.models
 keras.layers
 joblib
-streamlit.components.v1
-sklearn.preprocessing
-sklearn.metrics
