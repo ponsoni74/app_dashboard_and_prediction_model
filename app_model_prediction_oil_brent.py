@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from keras.models import Sequential
-from keras.layers import LSTM, Dense
+#from keras.models import Sequential
+#from keras.layers import LSTM, Dense
 import joblib
 import streamlit.components.v1 as components
 from sklearn.preprocessing import MinMaxScaler
@@ -37,14 +37,17 @@ X_train, X_test = X[train_size:], X[:train_size]
 y_train, y_test = y[train_size:], y[:train_size]
 
 # Construindo o modelo LSTM
-model = Sequential()
-model.add(LSTM(units=64, input_shape=(sequence_length, 1)))
-model.add(Dense(units=1))
-model.compile(optimizer='adam', loss='mean_squared_error')
-model.summary()
+#model = Sequential()
+#model.add(LSTM(units=64, input_shape=(sequence_length, 1)))
+#model.add(Dense(units=1))
+#model.compile(optimizer='adam', loss='mean_squared_error')
+#model.summary()
 
 # Treinando o modelo
-model.fit(X_train, y_train, epochs=10, batch_size=32)
+#model.fit(X_train, y_train, epochs=10, batch_size=32)
+
+# importando o modelo preditivo
+model = joblib.load('model.pkl')
 
 predictions = model.predict(X_test)
 
@@ -59,8 +62,7 @@ actual_prices = scaler.inverse_transform(y_test.reshape(-1,1))
 
 mape = mean_absolute_percentage_error(actual_prices, predicted_prices)
 
-# importando o modelo preditivo
-#model = joblib.load('model.pkl')
+
 
 # Gerar previsão
 #predictions = model.predict(data)
