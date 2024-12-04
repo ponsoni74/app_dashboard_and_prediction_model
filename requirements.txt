@@ -3,3 +3,4 @@ pandas
 joblib
 openpyxl
 keras
+tensorflow
