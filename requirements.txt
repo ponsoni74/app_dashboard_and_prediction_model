@@ -1,6 +1,7 @@
 sklearn
 streamlit
 pandas
+numpy
 joblib
 openpyxl
 keras
